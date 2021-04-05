@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using wind_forecast_api.Options;
+using wind_forecast_api.Services;
 
 namespace wind_forecast_api
 {
@@ -26,17 +28,34 @@ namespace wind_forecast_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("corsPolicy", builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+                });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "wind_forecast_api", Version = "v1" });
             });
+            services.Configure<PushNotificationsOptions>(Configuration.GetSection("PushNotifications"));
+            services.AddHostedService<WindNotificationsProducer>();
+            services.AddSingleton<IPushSubscriptionsService, PushSubscriptionsService>();
+            services.AddPushServiceClient();
+            //services.AddCors(options =>
+            //{
+            //    options.
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -44,16 +63,18 @@ namespace wind_forecast_api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "wind_forecast_api v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors("corsPolicy");
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
+            });            
         }
     }
 }
