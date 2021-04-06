@@ -1,6 +1,6 @@
 ﻿using Lib.Net.Http.WebPush;
 using Lib.Net.Http.WebPush.Authentication;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -8,17 +8,22 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using wind_forecast_api.Options;
+using wind_forecast_api.Services;
 
-namespace wind_forecast_api.Services
+namespace wind_forecast_api.Controllers
 {
-    public class WindNotificationsProducer : BackgroundService
+    [Route("api/[controller]")]
+    [ApiController]
+    public class WindAlertController
     {
-        private const int NOTIFICATION_FREQUENCY = 60000;
-        private readonly Random _random = new Random();
         private readonly IPushSubscriptionsService _pushSubscriptionsService;
         private readonly PushServiceClient _pushClient;
 
-        public WindNotificationsProducer(IOptions<PushNotificationsOptions> options, IPushSubscriptionsService pushSubscriptionsService, PushServiceClient pushClient)
+        public WindAlertController(
+            IOptions<PushNotificationsOptions> options, 
+            IPushSubscriptionsService pushSubscriptionsService, 
+            PushServiceClient pushClient
+            )
         {
             _pushSubscriptionsService = pushSubscriptionsService;
             _pushClient = pushClient;
@@ -31,21 +36,21 @@ namespace wind_forecast_api.Services
             _pushClient.DefaultAuthentication = vapidAuthentication;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        /// <summary>
+        /// Send wind alert to every subscribers
+        /// </summary>
+        /// <param name="velocity"></param>
+        public void Post(int velocity)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Task.Delay(NOTIFICATION_FREQUENCY, stoppingToken);
-                SendNotifications(_random.Next(-20, 55), stoppingToken);
-            }
+            SendNotifications(velocity, CancellationToken.None);
         }
 
-        private void SendNotifications(int temperatureC, CancellationToken stoppingToken)
+        private void SendNotifications(int velocity, CancellationToken stoppingToken)
         {
             PushMessage notification = new AngularPushNotification
             {
-                Title = "New Weather Forecast",
-                Body = $"Temp. (C): {temperatureC} | Temp. (F): {32 + (int)(temperatureC / 0.5556)}",
+                Title = "Strong wind alert !",
+                Body = $"Wind velocity: {velocity}",
                 Icon = "assets/icons/icon-96x96.png"
             }.ToPushMessage();
 
