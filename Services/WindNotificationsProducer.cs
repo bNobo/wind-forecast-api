@@ -13,7 +13,7 @@ namespace wind_forecast_api.Services
 {
     public class WindNotificationsProducer : BackgroundService
     {
-        private const int NOTIFICATION_FREQUENCY = 60000;
+        private const int NOTIFICATION_FREQUENCY = 600000;
         private readonly Random _random = new Random();
         private readonly IPushSubscriptionsService _pushSubscriptionsService;
         private readonly PushServiceClient _pushClient;
