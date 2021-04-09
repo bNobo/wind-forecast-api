@@ -13,7 +13,7 @@ namespace wind_forecast_api.Services
     public class WindNotificationsProducer : BackgroundService
     {
         // Every 3 hours
-        private const int NOTIFICATION_FREQUENCY = 60000;//3*60*60*1000;
+        private const int NOTIFICATION_FREQUENCY = 3*60*60*1000;
         private const string RequestUri = "https://wttr.in/Montpellier?format=j1";
         private readonly IPushSubscriptionsService _pushSubscriptionsService;
         private readonly PushServiceClient _pushClient;
@@ -31,7 +31,7 @@ namespace wind_forecast_api.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            const int maxAllowedSpeed = 20;
+            const int maxAllowedSpeed = 30;
             int maxSpeed = 0;
 
             while (!stoppingToken.IsCancellationRequested)
