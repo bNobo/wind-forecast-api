@@ -1,0 +1,15 @@
+[Unit]
+Description=Wind forecast API
+
+[Service]
+WorkingDirectory=/home/pi/windforecast-api
+ExecStart=/home/pi/dotnet/dotnet /home/pi/windforecast-api/wind-forecast-api.dll
+Restart=always
+RestartSec=30
+SyslogIdentifier=windforecast-api
+User=pi
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=ASPNETCORE_URLS=https://0.0.0.0:5001
+
+[Install]
+WantedBy=multi-user.target
