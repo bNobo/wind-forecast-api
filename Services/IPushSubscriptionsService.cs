@@ -1,5 +1,6 @@
 ﻿using Lib.Net.Http.WebPush;
 using System.Collections.Generic;
+using wind_forecast_api.Models;
 
 namespace wind_forecast_api.Services
 {
@@ -7,6 +8,6 @@ namespace wind_forecast_api.Services
     {
         void Delete(string endpoint);
         void Insert(PushSubscription subscription);
-        IEnumerable<PushSubscription> GetAll();
+        IEnumerable<MongoPushSubscription> GetAll();
     }
 }

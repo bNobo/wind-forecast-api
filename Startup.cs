@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using wind_forecast_api.Options;
 using wind_forecast_api.Services;
 
@@ -37,18 +38,26 @@ namespace wind_forecast_api
                     builder.AllowAnyOrigin();
                 });
             });
+            
             services.AddControllers();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "wind_forecast_api", Version = "v1" });
             });
+            
             services.Configure<PushNotificationsOptions>(Configuration.GetSection("PushNotifications"));
+            
             services.AddHostedService<WindNotificationsProducer>();
+            
             services.AddSingleton<IPushSubscriptionsService, PushSubscriptionsService>();
+            services.AddSingleton(new MongoClient(Configuration["Mongo:ConnectionString"]));
+
             services.AddPushServiceClient(options =>
             {
                 Configuration.GetSection("PushNotifications").Bind(options);
             });
+            
             services.AddHttpClient();
             //services.AddCors(options =>
             //{
