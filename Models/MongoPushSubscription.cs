@@ -11,6 +11,6 @@ namespace wind_forecast_api.Models
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public string Id { get { return Endpoint; } }
+        public string Id { get; set; }
     }
 }
