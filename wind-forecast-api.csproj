@@ -4,7 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>wind_forecast_api</RootNamespace>
     <UserSecretsId>3853aa39-6d6d-4bb2-8787-31d14011253a</UserSecretsId>
-    <Version>1.0.1</Version>
+    <Version>1.1.16</Version>
+    <NeutralLanguage></NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>

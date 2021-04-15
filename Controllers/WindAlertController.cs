@@ -1,6 +1,7 @@
 ﻿using Lib.Net.Http.WebPush;
 using Lib.Net.Http.WebPush.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,19 @@ namespace wind_forecast_api.Controllers
     {
         private readonly IPushSubscriptionsService _pushSubscriptionsService;
         private readonly PushServiceClient _pushClient;
+        private readonly ILogger<WindAlertController> _logger;
 
         public WindAlertController(
             IOptions<PushNotificationsOptions> options, 
             IPushSubscriptionsService pushSubscriptionsService, 
-            PushServiceClient pushClient
+            PushServiceClient pushClient,
+            ILogger<WindAlertController> logger
             )
         {
             _pushSubscriptionsService = pushSubscriptionsService;
             _pushClient = pushClient;
+            _logger = logger;
+            _logger.LogInformation("WindAlertController ctor");
 
             var vapidAuthentication = new VapidAuthentication(options.Value.PublicKey, options.Value.PrivateKey)
             {
