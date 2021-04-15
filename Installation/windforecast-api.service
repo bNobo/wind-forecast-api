@@ -1,5 +1,6 @@
 [Unit]
 Description=Wind forecast API
+After=network-online.target
 
 [Service]
 WorkingDirectory=/home/pi/windforecast-api
