@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using wind_forecast_api.HealthChecks;
 using wind_forecast_api.Options;
 using wind_forecast_api.Services;
 
@@ -59,10 +60,9 @@ namespace wind_forecast_api
             });
             
             services.AddHttpClient();
-            //services.AddCors(options =>
-            //{
-            //    options.
-            //});
+
+            services.AddHealthChecks()
+                .AddCheck<VersionHealthCheck>("version");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +87,8 @@ namespace wind_forecast_api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapHealthChecks(Configuration);
             });            
         }
     }
