@@ -30,6 +30,8 @@ namespace wind_forecast_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string mongodbConnectionString = Configuration["Mongo:ConnectionString"];
+
             services.AddCors(options =>
             {
                 options.AddPolicy("corsPolicy", builder =>
@@ -52,7 +54,8 @@ namespace wind_forecast_api
             services.AddHostedService<WindNotificationsProducer>();
             
             services.AddSingleton<IPushSubscriptionsService, PushSubscriptionsService>();
-            services.AddSingleton(new MongoClient(Configuration["Mongo:ConnectionString"]));
+            
+            services.AddSingleton(new MongoClient(mongodbConnectionString));
 
             services.AddPushServiceClient(options =>
             {
@@ -62,7 +65,8 @@ namespace wind_forecast_api
             services.AddHttpClient();
 
             services.AddHealthChecks()
-                .AddCheck<VersionHealthCheck>("version");
+                .AddCheck<VersionHealthCheck>("version")
+                .AddMongoDb(mongodbConnectionString);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
