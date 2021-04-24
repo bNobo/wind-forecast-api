@@ -16,7 +16,7 @@ namespace wind_forecast_api.Services
     {
         // Every 3 hours
 #if DEBUG
-        private const int NOTIFICATION_FREQUENCY = 0;
+        private const int NOTIFICATION_FREQUENCY = 30 * 1000;
 #else
         private const int NOTIFICATION_FREQUENCY = 3*60*60*1000;
 #endif
