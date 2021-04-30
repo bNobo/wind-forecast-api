@@ -36,7 +36,10 @@ namespace wind_forecast_api
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
-        public PushMessage ToPushMessage(string topic = null, int? timeToLive = null, PushMessageUrgency urgency = PushMessageUrgency.Normal)
+        public PushMessage ToPushMessage(
+            string topic = null, 
+            int? timeToLive = null, 
+            PushMessageUrgency urgency = PushMessageUrgency.High)
         {
             return new PushMessage(WRAPPER_START + JsonConvert.SerializeObject(this, _jsonSerializerSettings) + WRAPPER_END)
             {

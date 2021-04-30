@@ -1,6 +1,7 @@
 ﻿using Lib.Net.Http.WebPush;
 using Lib.Net.Http.WebPush.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -10,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using wind_forecast_api.Options;
 using wind_forecast_api.Services;
+using static wind_forecast_api.AngularPushNotification;
 
 namespace wind_forecast_api.Controllers
 {
@@ -20,17 +22,20 @@ namespace wind_forecast_api.Controllers
         private readonly IPushSubscriptionsService _pushSubscriptionsService;
         private readonly PushServiceClient _pushClient;
         private readonly ILogger<WindAlertController> _logger;
+        private readonly IConfiguration _configuration;
 
         public WindAlertController(
             IOptions<PushNotificationsOptions> options, 
             IPushSubscriptionsService pushSubscriptionsService, 
             PushServiceClient pushClient,
-            ILogger<WindAlertController> logger
+            ILogger<WindAlertController> logger,
+            IConfiguration configuration
             )
         {
             _pushSubscriptionsService = pushSubscriptionsService;
             _pushClient = pushClient;
             _logger = logger;
+            _configuration = configuration;
             _logger.LogInformation("WindAlertController ctor");
 
             var vapidAuthentication = new VapidAuthentication(options.Value.PublicKey, options.Value.PrivateKey)
@@ -56,7 +61,9 @@ namespace wind_forecast_api.Controllers
             {
                 Title = "Strong wind alert! (dummy)",
                 Body = $"Wind velocity: {velocity}",
-                Icon = "assets/icons/icon-96x96.png"
+                Icon = "assets/icons/icon-96x96.png",
+                Actions = new List<NotificationAction> { new NotificationAction("openwebsite", "Open webapp") },
+                Data = new Dictionary<string, object> { { "url", _configuration["FrontUrl"] } },
             }.ToPushMessage();
 
             foreach (PushSubscription subscription in _pushSubscriptionsService.GetAll())

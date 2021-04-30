@@ -1,4 +1,5 @@
 ﻿using Lib.Net.Http.WebPush;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
@@ -9,6 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static wind_forecast_api.AngularPushNotification;
 
 namespace wind_forecast_api.Services
 {
@@ -25,17 +27,20 @@ namespace wind_forecast_api.Services
         private readonly PushServiceClient _pushClient;
         private readonly HttpClient _httpClient;
         private readonly ILogger<PushNotificationsProducer> _logger;
+        private readonly IConfiguration _configuration;
 
         public PushNotificationsProducer(
             IPushSubscriptionsService pushSubscriptionsService, 
             PushServiceClient pushClient,
             HttpClient httpClient,
-            ILogger<PushNotificationsProducer> logger)
+            ILogger<PushNotificationsProducer> logger,
+            IConfiguration configuration)
         {
             _pushSubscriptionsService = pushSubscriptionsService;
             _pushClient = pushClient;
             _httpClient = httpClient;
             _logger = logger;
+            _configuration = configuration;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -127,7 +132,9 @@ namespace wind_forecast_api.Services
             {
                 Title = title,
                 Body = body,
-                Icon = "assets/icons/icon-96x96.png"
+                Icon = "assets/icons/icon-96x96.png",
+                Actions = new List<NotificationAction> { new NotificationAction("openwebsite", "Open webapp") },
+                Data = new Dictionary<string, object> { { "url", _configuration["FrontUrl"] } },
             }.ToPushMessage();
 
             foreach (PushSubscription subscription in _pushSubscriptionsService.GetAll())
