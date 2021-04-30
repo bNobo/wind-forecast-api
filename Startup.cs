@@ -51,7 +51,7 @@ namespace wind_forecast_api
             
             services.Configure<PushNotificationsOptions>(Configuration.GetSection("PushNotifications"));
             
-            services.AddHostedService<WindNotificationsProducer>();
+            services.AddHostedService<PushNotificationsProducer>();
             
             services.AddSingleton<IPushSubscriptionsService, PushSubscriptionsService>();
             
