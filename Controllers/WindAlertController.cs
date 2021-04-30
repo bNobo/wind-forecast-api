@@ -54,7 +54,7 @@ namespace wind_forecast_api.Controllers
         {
             PushMessage notification = new AngularPushNotification
             {
-                Title = "Strong wind alert !",
+                Title = "Strong wind alert! (dummy)",
                 Body = $"Wind velocity: {velocity}",
                 Icon = "assets/icons/icon-96x96.png"
             }.ToPushMessage();
