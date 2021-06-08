@@ -12,4 +12,4 @@ If you're only interested in push notifications handling you should have a look 
 
 ## Credits
 
-Special thanks to [Igor Chubin](https://github.com/chubin/wttr.in) for providing a wonderful free weather API I'm relying on in this project.
+Special thanks to [Igor Chubin](https://github.com/chubin/wttr.in) for providing a wonderful free weather API I'm relying on for this project.
