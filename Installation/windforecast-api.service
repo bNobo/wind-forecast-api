@@ -10,7 +10,7 @@ RestartSec=30
 SyslogIdentifier=windforecast-api
 User=pi
 Environment=ASPNETCORE_ENVIRONMENT=Production
-Environment=ASPNETCORE_URLS=https://0.0.0.0:5001
+Environment=ASPNETCORE_URLS=http://0.0.0.0:5000
 
 [Install]
 WantedBy=multi-user.target
