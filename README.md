@@ -14,6 +14,20 @@ If you're only interested in push notifications handling you should have a look 
 
 Installing *.Net 5* with *apt-get* won't work on Debian Stretch 9. The easiest method is to use [dotnet-install.sh](https://docs.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#scripted-install) script provided by Microsoft.
 
+After installation, set dotnet environment variables in *.bashrc*:
+
+```ini
+# export .NET runtime path
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$DOTNET_ROOT
+```
+
+Set the *ExecStart* in service file:
+
+```ini
+ExecStart=/home/pi/.dotnet/dotnet /home/pi/windforecast-api/wind-forecast-api.dll
+```
+
 ## Credits
 
 Special thanks to [Igor Chubin](https://github.com/chubin/wttr.in) for providing a wonderful free weather API I'm relying on for this project.
