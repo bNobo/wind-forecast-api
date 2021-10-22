@@ -14,6 +14,10 @@ If you're only interested in push notifications handling you should have a look 
 
 Installing *.Net 5* with *apt-get* won't work on Debian Stretch 9. The easiest method is to use [dotnet-install.sh](https://docs.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#scripted-install) script provided by Microsoft.
 
+```bash
+./dotnet-install.sh -c 5.0 --runtime aspnetcore
+```
+
 After installation, set dotnet environment variables in *.bashrc*:
 
 ```ini
