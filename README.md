@@ -10,6 +10,10 @@ If you want to test the live site, navigate to https://boncocotier.duckdns.org
 
 If you're only interested in push notifications handling you should have a look to classes in [services folder](./Services) 
 
+## Net core / Net 5 installation on Raspberry PI
+
+Installing *.Net 5* with *apt-get* won't work on Debian Stretch 9. The easiest method is to use [dotnet-install.sh](https://docs.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#scripted-install) script provided by Microsoft.
+
 ## Credits
 
 Special thanks to [Igor Chubin](https://github.com/chubin/wttr.in) for providing a wonderful free weather API I'm relying on for this project.
