@@ -4,9 +4,9 @@ I've created a very basic Web API I use to obtain notifications when there is a 
 
 I made it for my own usage so if you want to use it you'll have to adapt code a little bit. For instance, the forecast concerns only tomorrow in Montpellier (France) city.
 
-I have written an article on [dev.to](https://dev.to/___bn___/free-certified-ssl-certificate-in-asp-net-5-kestrel-application-kgn) which explains how to set it up.
+I have written an article on [dev.to](https://dev.to/___bn___/free-certified-ssl-certificate-in-asp-net-5-kestrel-application-kgn) which explains how to set it up if you want to host the website by yourself.
 
-If you want to test the live site, navigate to https://boncocotier.duckdns.org
+If you want to test the live site, navigate to https://www.boncocotier.fr
 
 If you're only interested in push notifications handling you should have a look to classes in [services folder](./Services) 
 
