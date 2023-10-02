@@ -86,6 +86,8 @@ namespace wind_forecast_api
             
             app.UseCors("corsPolicy");
 
+            app.UseResponseCaching();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

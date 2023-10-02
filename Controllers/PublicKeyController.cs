@@ -19,6 +19,7 @@ namespace wind_forecast_api.Controllers
             _options = options.Value;
         }
 
+        [ResponseCache(Duration = 86400)]
         public ContentResult Get()
         {
             return Content(_options.PublicKey, "text/plain");

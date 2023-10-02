@@ -41,6 +41,7 @@ namespace wind_forecast_api.Controllers
         }
 
         [HttpGet("{id}")]
+        [ResponseCache(Duration = 3600)]
         public async Task<IActionResult> Get(string id)
         {
             if (id != "tomorrow")
@@ -76,7 +77,7 @@ namespace wind_forecast_api.Controllers
                     }
                 }
             }
-
+            
             return Ok(forecast);
         }
 
