@@ -1,6 +1,6 @@
 # wind-forecast-api
 
-I've created a very basic Web API I use to obtain notifications when there is a risk of rain or strong wind gust. I use it to be notified so I can remove outside sails when there is a significant risk.
+I've created a very basic Web API I use to obtain notifications when there is a risk of rain or strong wind gust. I use it to be notified so I can remove outside sails when there is a significant risk. The project now targets **.NET 8 LTS**.
 
 I made it for my own usage so if you want to use it you'll have to adapt code a little bit. For instance, the forecast concerns only tomorrow in Montpellier (France) city.
 
